@@ -8,7 +8,7 @@ class Startingpage extends StatefulWidget {
   @override
   State<Startingpage> createState() => _StartingpageState();
 }
- 
+
 class _StartingpageState extends State<Startingpage> {
   List<String> subjects = [];
   String notice = 'Loading subjects...';
@@ -24,12 +24,14 @@ class _StartingpageState extends State<Startingpage> {
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        final jsonResponse = convert.jsonDecode(response.body);
 
-        // Example: if your JSON has a list like ["Math", "Science"]
+        final jsonResponse = convert.jsonDecode(response.body);
+        // print(jsonResponse);
         setState(() {
           subjects = List<String>.from(jsonResponse);
+          print("hii");
           notice = 'Subjects Loaded!';
+          print(subjects);
         });
       } else {
         setState(() {
@@ -41,6 +43,7 @@ class _StartingpageState extends State<Startingpage> {
         notice = 'Error loading subjects: $e';
       });
     }
+    print(notice);
   }
 
   @override
