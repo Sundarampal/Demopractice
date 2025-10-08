@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'package:demopractice/Utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,18 +21,27 @@ class _StartingpageState extends State<Startingpage> {
   }
 
   Future<void> _loadSubjects() async {
-    final url = Uri.parse("https://sundarampal.github.io/myjsonfiles/subject1_2.json");
+    final url = Uri.parse(
+      "https://sundarampal.github.io/myjsonfiles/subject1_2.json",
+    );
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-
-        final jsonResponse = convert.jsonDecode(response.body);
+        final data = convert.jsonDecode(response.body);
         // print(jsonResponse);
+        // print(data);
+        print(data.length);
+        for(int i=0;i<=data.length-1;i++)
+          {
+            print(data[i]);
+          }
         setState(() {
-          subjects = List<String>.from(jsonResponse);
+          // subjects = List<String>.from(jsonResponse);
           print("hii");
+
           notice = 'Subjects Loaded!';
-          print(subjects);
+          Utilities.setSubjects(data);
+          // print(subjects);
         });
       } else {
         setState(() {
@@ -54,19 +64,7 @@ class _StartingpageState extends State<Startingpage> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(notice),
-              const SizedBox(height: 20),
-              for (var s in subjects)
-                Text(s, style: const TextStyle(fontSize: 18)),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/second');
-                },
-                child: const Text("Next"),
-              ),
-            ],
+            children:Utilities.subjects ,
           ),
         ),
       ),
